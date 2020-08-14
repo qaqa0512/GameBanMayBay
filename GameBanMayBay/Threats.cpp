@@ -43,6 +43,7 @@ void ThreatObject::InitAmo(AmoObject* p_amo)
 			p_amo->SetWidthHeight(WIDTH_LASER,HEIGHT_LASER);// kich thuoc cua doi tuong
 			p_amo->set_type(AmoObject::LASER);// thiet lap loai dan ban
 			p_amo->SetRect(rect_.x, rect_.y + rect_.h*0.5); // vi tri cua doi tuong
+			p_amo->set_x_val(8);
 			p_amo_list_.push_back(p_amo); // hang loat doi tuong xuat hien 
 		}
 	}
@@ -77,7 +78,7 @@ void ThreatObject::HandleMove(const int& x_border, const int& y_border)
 		rect_.x = SCREEN_WIDTH;
 		//set doi tuong xuat hien ngau nhien
 		int rand_y = rand() % 400;
-		if (rand_y > SCREEN_HEIGHT - 200)
+		if (rand_y > SCREEN_HEIGHT - UNDER_LIMIT_THREAT)
 		{
 			rand_y = SCREEN_HEIGHT*0.3;
 		}

@@ -31,7 +31,7 @@ int main(int arc, char* argv[])
 		return 0;
 
 	// dua anh vao background
-	g_bkground = SDLCommonFunc::LoadImage("bg2.png");
+	g_bkground = SDLCommonFunc::LoadImage("bg3.jpg");
 	if (g_bkground == NULL)
 	{
 		return 0;
@@ -47,6 +47,7 @@ int main(int arc, char* argv[])
 
 	//Khoi tao nhan vat tro ngai
 	ThreatObject* p_threats = new ThreatObject[NUM_THREAT]; // tao bien de qly so luong dt tro ngai
+	
 	for (int t = 0; t < NUM_THREAT; t++) 
 	{
 		ThreatObject* p_threat = (p_threats + t); // moi lan chay se khoi tao 1 doi tuong
@@ -87,37 +88,16 @@ int main(int arc, char* argv[])
 			human_object.HandleInputAction(g_even);
 
 		}
-		// Cap nhat lai vi tri moi
+		// Cap nhat background
 		SDLCommonFunc::ApplySurface(g_bkground, g_screen, 0, 0); // x=0, y=0 => offset: toa do day; de che do full man hinh
+		
+		//thuc hien nhan vat chinh
 		human_object.Show(g_screen);
 		human_object.HandleMove();
+		human_object.MakeAmo(g_screen);
+		
 
-		for (int i = 0; i < human_object.GetAmoList().size(); i++)
-		{
-			std::vector<AmoObject*> amo_list = human_object.GetAmoList();
-			AmoObject* p_amo = amo_list.at(i);
-			if (p_amo != NULL) {
-				if (p_amo->get_is_move())// ktra neu p_amo cho phep dan ban ra
-				{
-					p_amo->Show(g_screen);
-					p_amo->HandleMove(SCREEN_WIDTH,SCREEN_HEIGHT);
-				}
-				else
-				{
-					if (p_amo != NULL) // ktra neu vuot gioi han thi
-					{
-						// xoa doi tuong di 
-						amo_list.erase(amo_list.begin() + i);
-						human_object.SetAmoList(amo_list);
-						//vien dan nao vuot qua gioi han cho phep thi lap tuc se bi loai bo
-						delete p_amo;
-						p_amo = NULL;
-					}
-				}
-			}
-		}
-
-		// Chay nhan vat tro ngai
+		// thuc thi doi tuong tro ngai
 		for (int tt = 0; tt < NUM_THREAT; tt++) 
 		{
 			ThreatObject* p_threat = (p_threats + tt); // moi lan chay se khoi tao 1 doi tuong 
@@ -129,7 +109,7 @@ int main(int arc, char* argv[])
 				p_threat->MakeAmo(g_screen, SCREEN_WIDTH, SCREEN_HEIGHT);
 			}
 		}
-		// SDL_lip refresh lai ung dung
+		// Caop nhat man hinh
 		if (SDL_Flip(g_screen) == -1) 
 			return 0;
 	}

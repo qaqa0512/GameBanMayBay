@@ -13,6 +13,7 @@
 //dinh nghia do rong
 #define WIDTH_THREAT 80
 #define HEIGHT_THREAT 33
+const int UNDER_LIMIT_THREAT = 200;
 
 class ThreatObject : public BaseObject 
 {

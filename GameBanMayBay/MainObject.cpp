@@ -69,7 +69,7 @@ void MainObject::HandleInputAction(SDL_Event events) {
 		// cap nhat vi tri cho doi tuong
 		p_amo->SetRect(this->rect_.x + this->rect_.w - 10, this->rect_.y + this->rect_.h*0.5);// thiet lap toa do cho dan
 		p_amo->set_is_move(true);
-
+		p_amo->set_x_val(20);
 		p_amo_list_.push_back(p_amo);
 	}
 	else if (events.type == SDL_MOUSEBUTTONUP) // ktra khi chuot tha ra
@@ -78,20 +78,46 @@ void MainObject::HandleInputAction(SDL_Event events) {
 	}
 	else
 	{
-		rect_.x += x_val_;
-		//Gioi han chieu rong
-		if (rect_.x < 0 || rect_.x + WIDTH_MAIN_OBJECT > SCREEN_WIDTH)
-		{
-			rect_.x -= x_val_;
-		}
-		//Gioi han chieu cao
-		rect_.y += y_val_;
-		if (rect_.y < 0 || rect_.y + HEIGHT_MAIN_OBJECT > SCREEN_HEIGHT - 200) {
-			rect_.y -= y_val_;
+		//
+	}
+}
+
+void MainObject::MakeAmo(SDL_Surface* des)
+{
+	for (int i = 0; i < p_amo_list_.size();i++)
+	{
+		AmoObject* p_amo = p_amo_list_.at(i);
+		if (p_amo != NULL) {
+			if (p_amo->get_is_move())// ktra neu p_amo cho phep dan ban ra
+			{
+				p_amo->Show(des);
+				p_amo->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT);
+			}
+			else
+			{
+				if (p_amo != NULL) // ktra neu vuot gioi han thi
+				{
+					// xoa doi tuong di 
+					p_amo_list_.erase(p_amo_list_.begin() + i);
+					//vien dan nao vuot qua gioi han cho phep thi lap tuc se bi loai bo
+					delete p_amo;
+					p_amo = NULL;
+				}
+			}
 		}
 	}
-
 }
+// Ham xu y di chuyen
 void MainObject::HandleMove() {
-	//TODO
+	rect_.x += x_val_;
+	//Gioi han chieu rong
+	if (rect_.x < 0 || rect_.x + WIDTH_MAIN_OBJECT > SCREEN_WIDTH)
+	{
+		rect_.x -= x_val_;
+	}
+	//Gioi han chieu cao
+	rect_.y += y_val_;
+	if (rect_.y < 0 || rect_.y + HEIGHT_MAIN_OBJECT > SCREEN_HEIGHT - 100) {
+		rect_.y -= y_val_;
+	}
 }

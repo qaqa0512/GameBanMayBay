@@ -16,15 +16,18 @@ AmoObject::~AmoObject()
 // Ham xu ly dan ban cua nhan vat chinh
 void AmoObject::HandleMove(const int& x_border, const int& y_border)
 {
-	rect_.x += 20;// toc do dan ban tu phia ben tri
-	if (rect_.x > x_border) {
-		is_move_ = false;// khong cho xuat hien nua
+	if (is_move_ == true) 
+	{
+		rect_.x += x_val_;// toc do dan ban tu phia ben tri
+		if (rect_.x > x_border) {
+			is_move_ = false;// khong cho xuat hien nua
+		}
 	}
 }
 // Ham xu ly dan ban cua doi tuong can tro
 void AmoObject::HandleMoveRight()
 {
-	rect_.x -= 8; // toc do dan ban tu phia ben phai
+	rect_.x -= x_val_; // toc do dan ban tu phia ben phai
 	if (rect_.x < 0)
 	{
 		is_move_ = false;
