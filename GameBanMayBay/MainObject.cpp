@@ -67,7 +67,7 @@ void MainObject::HandleInputAction(SDL_Event events) {
 			p_amo->set_type(AmoObject::SAPHERE);
 		}
 		// cap nhat vi tri cho doi tuong
-		p_amo->SetRect(this->rect_.x + this->rect_.w - 10, this->rect_.y + this->rect_.h*0.5);// thiet lap toa do cho dan
+		p_amo->SetRect(this->rect_.x + this->rect_.w - 10, this->rect_.y + this->rect_.h * 1.0);// thiet lap toa do cho dan
 		p_amo->set_is_move(true);
 		p_amo->set_x_val(20);
 		p_amo_list_.push_back(p_amo);
@@ -117,7 +117,7 @@ void MainObject::HandleMove() {
 	}
 	//Gioi han chieu cao
 	rect_.y += y_val_;
-	if (rect_.y < 0 || rect_.y + HEIGHT_MAIN_OBJECT > SCREEN_HEIGHT - 100) {
+	if (rect_.y < 0 || rect_.y + HEIGHT_MAIN_OBJECT > SCREEN_HEIGHT - 200) {
 		rect_.y -= y_val_;
 	}
 }

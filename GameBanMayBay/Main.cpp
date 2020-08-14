@@ -24,6 +24,8 @@ bool Init()
 //Ham main
 int main(int arc, char* argv[])
 {
+	bool is_run_screen = true; // quan ly viec dung hay la chay
+	int bg_x = 0; // khai bao bien bg
 	// Khoi tao va ktra
 	bool is_quit = false;
 
@@ -31,7 +33,7 @@ int main(int arc, char* argv[])
 		return 0;
 
 	// dua anh vao background
-	g_bkground = SDLCommonFunc::LoadImage("bg3.jpg");
+	g_bkground = SDLCommonFunc::LoadImage("bg9.png");
 	if (g_bkground == NULL)
 	{
 		return 0;
@@ -40,7 +42,7 @@ int main(int arc, char* argv[])
 	// Khoi tao nhan vat chinh
 	MainObject human_object;
 	human_object.SetRect(100, 200);
-	bool ret = human_object.LoadImg("plane80.png");
+	bool ret = human_object.LoadImg("2.gif");
 	if (!ret) {
 		return 0;
 	} 
@@ -86,11 +88,38 @@ int main(int arc, char* argv[])
 			}
 			// Doi tuong may bay
 			human_object.HandleInputAction(g_even);
-
 		}
 		// Cap nhat background
-		SDLCommonFunc::ApplySurface(g_bkground, g_screen, 0, 0); // x=0, y=0 => offset: toa do day; de che do full man hinh
+		//bg_x -= 2; // background di chuyen
+		//SDLCommonFunc::ApplySurface(g_bkground, g_screen, bg_x, 0); // x=0, y=0 => offset: toa do day; de che do full man hinh
+		//SDLCommonFunc::ApplySurface(g_bkground, g_screen, bg_x + SCREEN_WIDTH, 0);
+		//if (bg_x <= -SCREEN_WIDTH) 
+		//{
+		//	bg_x = 0;
+		//}
+
 		
+		// neu = true thi cho phep chay
+		if(is_run_screen == true)
+		{
+			bg_x -= 2;
+			if (bg_x <= -(WIDTH_BG - SCREEN_WIDTH)) 
+			{
+				is_run_screen = false;
+			}
+			else
+			{
+				SDLCommonFunc::ApplySurface(g_bkground, g_screen, bg_x, 0); //cap nhat background da dc di chuyen
+			}
+		}
+		else
+		{
+			// giu nguyen trang thai cua bg kh cho chay nua
+			SDLCommonFunc::ApplySurface(g_bkground, g_screen, bg_x, 0); //cap nhat background da dc di chuyen
+		}
+
+
+
 		//thuc hien nhan vat chinh
 		human_object.Show(g_screen);
 		human_object.HandleMove();

@@ -35,7 +35,7 @@ void ThreatObject::InitAmo(AmoObject* p_amo)
 {
 	if (p_amo != NULL) // p_amo khac Null thi se dc phep load anh len
 	{
-		bool ret = p_amo->LoadImg("laser.png");
+		bool ret = p_amo->LoadImg("sphere.png");
 		//ktra neu truong hop thanh cong thi
 		if(ret)
 		{ 

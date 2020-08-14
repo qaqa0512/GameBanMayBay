@@ -12,6 +12,8 @@
 #include <SDL_image.h>
 #undef main
 //Khai bao cac thong so co dinh
+const int WIDTH_BG = 4800;
+const int HEIGHT_BG = 600;
 const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 600;
 const int SCREEN_BPP = 32;
