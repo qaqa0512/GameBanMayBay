@@ -152,6 +152,7 @@
     <ClCompile Include="AmoObject.cpp" />
     <ClCompile Include="BasicObject.cpp" />
     <ClCompile Include="Com_Funtion.cpp" />
+    <ClCompile Include="ExplosionObject.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainObject.cpp" />
     <ClCompile Include="Threats.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="AmoObject.h" />
     <ClInclude Include="BasicObject.h" />
     <ClInclude Include="Com_Func.h" />
+    <ClInclude Include="ExplosionObject.h" />
     <ClInclude Include="MainObject.h" />
     <ClInclude Include="Threats.h" />
   </ItemGroup>

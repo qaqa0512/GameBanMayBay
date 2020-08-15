@@ -29,6 +29,7 @@ namespace SDLCommonFunc // dat ten de tranh bi trung ten voi thu vien
 {
 	SDL_Surface* LoadImage(std::string file_path);
 	void ApplySurface(SDL_Surface* src, SDL_Surface* des, int x, int y);// co chuc nang load 1 surface nguon va dich
+	void ApplySurfaceClip(SDL_Surface* src, SDL_Surface* des, SDL_Rect* clip, int x, int y); 
 	void CleanUp();
 	bool CheckCollision(const SDL_Rect& object_1,const SDL_Rect& object_2); //khai bao ham Xu Ly Va Cham
 }

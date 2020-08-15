@@ -1,6 +1,7 @@
 ﻿#include "Com_Func.h"
 #include "MainObject.h"
 #include "Threats.h"
+#include "ExplosionObject.h"
 #undef main
 
 
@@ -46,6 +47,16 @@ int main(int arc, char* argv[])
 	if (!ret) {
 		return 0;
 	} 
+
+	//Khoi tao doi tuong vu no
+	ExplosionObject exp_main;
+	ret = exp_main.LoadImg("exp_main.png");
+	exp_main.set_clip(); // 
+	if (!ret)
+	{
+		return 0;
+	}
+
 
 	//Khoi tao nhan vat tro ngai
 	ThreatObject* p_threats = new ThreatObject[NUM_THREAT]; // tao bien de qly so luong dt tro ngai
@@ -138,6 +149,24 @@ int main(int arc, char* argv[])
 				p_threat->Show(g_screen);
 				p_threat->MakeAmo(g_screen, SCREEN_WIDTH, SCREEN_HEIGHT);
 				
+
+				// Xu ly va cham giua dan ban cua threat voi humanmain
+				/*bool is_col1 = false;
+				std::vector<AmoObject*> amo_arr = p_threat->GetAmoList();
+				for (int am = 0; am < amo_arr.size(); am++) 
+				{
+					AmoObject* p_amo = amo_arr.at(am);
+					if(p_amo)
+					{
+						is_col1 = SDLCommonFunc::CheckCollision(p_amo->GetRect(), human_object.GetRect());
+						if(is_col1 == true)
+						{
+							p_threat->ResetAmo(p_amo);
+							break;
+						}
+					}
+				}*/
+
 				// Cap nhat lai man hinh
 				if (SDL_Flip(g_screen) == -1)
 					return 0;
@@ -146,6 +175,22 @@ int main(int arc, char* argv[])
 				bool is_col = SDLCommonFunc::CheckCollision(human_object.GetRect(), p_threat->GetRect());
 				if(is_col)// neu va cham voi nhau thi tro choi se keu thuc
 				{
+					// Khi va cham thanh cong thi vu no se xay ra
+					for (int exp = 0; exp < 4; exp++)
+					{
+						int x_pos = (human_object.GetRect().x + human_object.GetRect().w*0.5)-EXP_WIDTH*0.5; //vi tri cua pos se = vi tri ngay mep cua nv + 1/2 chieu chieu rong cua nv - 1/2 chieu rong cua vu no ==> Vi tri se nam o ngay tam 
+						int y_pos = (human_object.GetRect().y + human_object.GetRect().h*0.5) - EXP_HEIGHT*0.5; //vi tri cua pos se = vi tri ngay mep cua nv + 1/2 chieu cao cua nv - 1/2 chieu cao cua vu no ==> Vi tri se nam o ngay tam 
+						
+						exp_main.set_frame(exp); // set frame cho explosion
+						exp_main.SetRect(x_pos, y_pos);// set vi tri cho explosion
+						exp_main.ShowExp(g_screen);
+						SDL_Delay(100);
+					}
+
+					// Cap nhat lai man hinh
+					if (SDL_Flip(g_screen) == -1)
+						return 0;
+
 					if (MessageBox(NULL, L"Thua rồi bạn ơi!!!", L"Tin Buồn", MB_OK) == IDOK) //Hien thi thong bao ban da thua va khi click vao thi ctrinh se ket thuc
 					{
 						delete[] p_threats; // doi tuong can tro di

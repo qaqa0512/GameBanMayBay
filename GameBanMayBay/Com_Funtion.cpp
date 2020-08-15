@@ -29,7 +29,13 @@ void SDLCommonFunc::ApplySurface(SDL_Surface* src, SDL_Surface* des, int x, int 
 	offset.y = y;
 	SDL_BlitSurface(src, NULL, des, &offset); // match lai voi nhau
 }
-
+void SDLCommonFunc::ApplySurfaceClip(SDL_Surface* src, SDL_Surface* des, SDL_Rect* clip, int x, int y)
+{
+	SDL_Rect offset;
+	offset.x = x;
+	offset.y = y;
+	SDL_BlitSurface(src, clip , des, &offset); // match tat ca lai voi nhau
+}
 
 //Ham xu ly va cham
 bool SDLCommonFunc::CheckCollision(const SDL_Rect& object_1, const SDL_Rect& object_2)
