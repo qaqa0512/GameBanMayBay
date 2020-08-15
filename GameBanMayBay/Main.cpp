@@ -121,9 +121,9 @@ int main(int arc, char* argv[])
 
 
 		//thuc hien nhan vat chinh
-		human_object.Show(g_screen);
-		human_object.HandleMove();
-		human_object.MakeAmo(g_screen);
+		human_object.HandleMove(); // nhan vat chinh di chuyen
+		human_object.Show(g_screen);// show hinh anh nhan vat len man hinh window
+		human_object.MakeAmo(g_screen); //show hinh anh nhan vat len man hinh window
 		
 
 		// thuc thi doi tuong tro ngai
@@ -133,12 +133,46 @@ int main(int arc, char* argv[])
 			// ktra neu != Null thi cho phep chay tiep
 			if (p_threat) 
 			{
-				p_threat->Show(g_screen);
+				
 				p_threat->HandleMove(SCREEN_WIDTH, SCREEN_HEIGHT);
+				p_threat->Show(g_screen);
 				p_threat->MakeAmo(g_screen, SCREEN_WIDTH, SCREEN_HEIGHT);
+				
+				// Cap nhat lai man hinh
+				if (SDL_Flip(g_screen) == -1)
+					return 0;
+			
+				// Sau khi vien dan di chuyen xong thi se kiem tra su va cham giua nhan vat chinh va doi tuong tro ngai
+				bool is_col = SDLCommonFunc::CheckCollision(human_object.GetRect(), p_threat->GetRect());
+				if(is_col)// neu va cham voi nhau thi tro choi se keu thuc
+				{
+					if (MessageBox(NULL, L"Thua rồi bạn ơi!!!", L"Tin Buồn", MB_OK) == IDOK) //Hien thi thong bao ban da thua va khi click vao thi ctrinh se ket thuc
+					{
+						delete[] p_threats; // doi tuong can tro di
+						SDLCommonFunc::CleanUp();
+						SDL_Quit();
+						return 1;
+					} 
+				}
+
+				// Sau khi vien dan di chuyen xong thi se kiem tra su va cham giua dan ban cua nhan vat chinh va doi tuong tro ngai
+				std::vector<AmoObject*> amo_list = human_object.GetAmoList();
+				for (int im = 0; im < amo_list.size(); im++)
+				{
+					AmoObject* p_amo = amo_list.at(im);
+					if (p_amo != NULL) // ktra con tro
+					{
+						bool ret_col = SDLCommonFunc::CheckCollision(p_amo->GetRect(), p_threat->GetRect());// khai bao ham ktra neu dan ban trung doi tuong tro ngai thi se bien mat
+						if(ret_col) // ktra khi ma dan ban trung vao doi tuong can tro thi
+						{	
+							p_threat->Reset(SCREEN_WIDTH + tt * 400); // doi tuong se duoc reset lai vi tri ban dau
+							human_object.RemoveAmo(im); // khi nv chinh ban trung dt can tro thi vien dan se bien mat
+						}
+					}
+				}
 			}
 		}
-		// Caop nhat man hinh
+		// Cap nhat lai man hinh
 		if (SDL_Flip(g_screen) == -1) 
 			return 0;
 	}

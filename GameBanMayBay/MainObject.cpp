@@ -121,3 +121,23 @@ void MainObject::HandleMove() {
 		rect_.y -= y_val_;
 	}
 }
+// Ham doi tuong bien mat
+void MainObject::RemoveAmo(const int& idx)
+{
+	for (int i = 0; i< p_amo_list_.size(); i++)// lay vien dan ra
+	{
+		if (idx < p_amo_list_.size()) // dam bao luc nao cung la size cuoi cung
+		{
+			AmoObject* p_amo = p_amo_list_.at(idx);
+			p_amo_list_.erase(p_amo_list_.begin() + idx);// xoa doi tuong ra khoi danh sach
+		
+			if(p_amo != NULL) // ktra con tro
+			{
+				delete p_amo;
+				p_amo = NULL;
+			}
+		}
+			
+	}
+}
+	

@@ -36,7 +36,8 @@ public:
 
 	void InitAmo(AmoObject* p_amo);
 	void MakeAmo(SDL_Surface* des, const int& x_limit, const int& y_limit); //Ham ban dan duoc ban ra
-																			// Gioi han cho phep dan duoc ban ra
+	void Reset(const int& xborder); // khai bao ham reset dt can tro																		// Gioi han cho phep dan duoc ban ra
+	void ResetAmo(AmoObject* p_amo);// khai bao ham reset  vi tri dan
 private:
 	int x_val_ ;
 	int y_val_;

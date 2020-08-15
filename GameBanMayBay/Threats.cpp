@@ -39,10 +39,10 @@ void ThreatObject::InitAmo(AmoObject* p_amo)
 		//ktra neu truong hop thanh cong thi
 		if(ret)
 		{ 
-			p_amo->set_is_move(true); // cho phep doi tuong di chuyen
-			p_amo->SetWidthHeight(WIDTH_LASER,HEIGHT_LASER);// kich thuoc cua doi tuong
+			p_amo->set_is_move(true); // cho phep vien dan di chuyen
+			p_amo->SetWidthHeight(WIDTH_LASER,HEIGHT_LASER);// kich thuoc cua vien dan
 			p_amo->set_type(AmoObject::LASER);// thiet lap loai dan ban
-			p_amo->SetRect(rect_.x, rect_.y + rect_.h*0.5); // vi tri cua doi tuong
+			p_amo->SetRect(rect_.x, rect_.y + rect_.h*0.5); // vi tri cua vien dan
 			p_amo->set_x_val(8);
 			p_amo_list_.push_back(p_amo); // hang loat doi tuong xuat hien 
 		}
@@ -88,4 +88,31 @@ void ThreatObject::HandleMove(const int& x_border, const int& y_border)
 void ThreatObject::HandleInputAction(SDL_Event events)
 {
 
+}
+
+// Ham reset doi tuong can tro
+void ThreatObject::Reset(const int& xborder)
+{
+	rect_.x = xborder; // vi tri xuat hien ban dau nam ngay mep bia cua man hinhs
+	//set doi tuong xuat hien ngau nhien
+	int rand_y = rand() % 400;
+	if (rand_y > SCREEN_HEIGHT - UNDER_LIMIT_THREAT)
+	{
+		rand_y = SCREEN_HEIGHT*0.3;
+	}
+	rect_.y = rand_y;
+
+	// reset lai vi tri cua vien dan
+	for (int i = 0; i < p_amo_list_.size(); i++) 
+	{
+		AmoObject* p_amo = p_amo_list_.at(i);
+		if (p_amo != NULL)  // ktra con tro
+		{
+			ResetAmo(p_amo);
+		}
+	}
+}
+void ThreatObject::ResetAmo(AmoObject* p_amo)
+{
+	p_amo->SetRect(rect_.x, rect_.y + rect_.h*0.5); // vi tri cua vien dan
 }

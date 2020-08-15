@@ -26,6 +26,8 @@ public:
 	void SetAmoList(std::vector<AmoObject*> amo_list_) { p_amo_list_ = amo_list_; }
 	std::vector<AmoObject*>GetAmoList() const { return p_amo_list_; }
 	void MainObject::MakeAmo(SDL_Surface* des);
+
+	void MainObject::RemoveAmo(const int& idx);// Ham doi tuong bien mat
 	// dinh nghia cac truong
 private:
 	int x_val_;
