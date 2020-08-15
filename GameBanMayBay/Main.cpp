@@ -178,13 +178,13 @@ int main(int arc, char* argv[])
 					// Khi va cham thanh cong thi vu no se xay ra
 					for (int exp = 0; exp < 4; exp++)
 					{
-						int x_pos = (human_object.GetRect().x + human_object.GetRect().w*0.5)-EXP_WIDTH*0.5; //vi tri cua pos se = vi tri ngay mep cua nv + 1/2 chieu chieu rong cua nv - 1/2 chieu rong cua vu no ==> Vi tri se nam o ngay tam 
-						int y_pos = (human_object.GetRect().y + human_object.GetRect().h*0.5) - EXP_HEIGHT*0.5; //vi tri cua pos se = vi tri ngay mep cua nv + 1/2 chieu cao cua nv - 1/2 chieu cao cua vu no ==> Vi tri se nam o ngay tam 
+						int x_pos = (human_object.GetRect().x + human_object.GetRect().w*0.3)-EXP_WIDTH*0.3; //vi tri cua pos se = vi tri ngay mep cua nv + 1/2 chieu chieu rong cua nv - 1/2 chieu rong cua vu no ==> Vi tri se nam o ngay tam 
+						int y_pos = (human_object.GetRect().y + human_object.GetRect().h*0.3) - EXP_HEIGHT*0.3; //vi tri cua pos se = vi tri ngay mep cua nv + 1/2 chieu cao cua nv - 1/2 chieu cao cua vu no ==> Vi tri se nam o ngay tam 
 						
 						exp_main.set_frame(exp); // set frame cho explosion
 						exp_main.SetRect(x_pos, y_pos);// set vi tri cho explosion
 						exp_main.ShowExp(g_screen);
-						SDL_Delay(100);
+						/*SDL_Delay(100);*/
 					}
 
 					// Cap nhat lai man hinh
