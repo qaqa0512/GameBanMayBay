@@ -2,7 +2,17 @@
 #include "MainObject.h"
 #include "Threats.h"
 #include "ExplosionObject.h"
+#include "Power.h"
+#include "FontText.h"
 #undef main
+
+// Nguyen Quoc Anh_1711061484
+// Nguyen Hoang Cong Duy_1711061525
+// Lop 17DTHA6
+
+
+// Khai bao Font 
+TTF_Font* g_font_text = NULL;
 
 
 //Ham Init khoi tao cac thuoc tinh ban dau
@@ -18,6 +28,20 @@ bool Init()
 	if (g_screen == NULL) {
 		return false;
 	}
+
+	// Khoi tao font text
+	if (TTF_Init() == -1)
+	{
+		return false;
+	}
+
+	// load file font chu len
+	g_font_text = TTF_OpenFont("UVNBanhMi.ttf", 30); // 20 la font_size
+	if (g_font_text == NULL) 
+	{
+		return false;
+	}
+
 	return true;
 }
 
@@ -40,8 +64,17 @@ int main(int arc, char* argv[])
 		return 0;
 	}
 	
+	// Khoi tao so mang
+	PlayerPower player_power;
+	player_power.Init();
+
+	// Khoi tao diem
+	Font_Text point; // khai bao bien point
+	point.SetColor(Font_Text::ORANGE_TEXT); // set cho diem la mau cam
+
+
 	// Khoi tao nhan vat chinh
-	MainObject human_object;
+	MainObject human_object; // khai bao bien human_object
 	human_object.SetRect(100, 200);
 	bool ret = human_object.LoadImg("2.gif");
 	if (!ret) {
@@ -84,8 +117,10 @@ int main(int arc, char* argv[])
 			AmoObject* p_amo = new AmoObject(); // tao bien quan ly dan ban
 			p_threat->InitAmo(p_amo);
 		}
-
 	}
+
+	unsigned int die_number = 0; // khai bao bien so lan chet
+	unsigned int point_value = 0; // khai bao bien cho gia tri diem
 
 	// vong lap up lien tuc man hinh
 	while (!is_quit)
@@ -129,7 +164,8 @@ int main(int arc, char* argv[])
 			SDLCommonFunc::ApplySurface(g_bkground, g_screen, bg_x, 0); //cap nhat background da dc di chuyen
 		}
 
-
+		// Hien thi mang 
+		player_power.Render(g_screen);
 
 		//thuc hien nhan vat chinh
 		human_object.HandleMove(); // nhan vat chinh di chuyen
@@ -150,8 +186,8 @@ int main(int arc, char* argv[])
 				p_threat->MakeAmo(g_screen, SCREEN_WIDTH, SCREEN_HEIGHT);
 				
 
-				// Xu ly va cham giua dan ban cua threat voi humanmain
-				/*bool is_col1 = false;
+				//Xu ly va cham giua dan ban cua threat voi humanmain
+				bool is_col1 = false;
 				std::vector<AmoObject*> amo_arr = p_threat->GetAmoList();
 				for (int am = 0; am < amo_arr.size(); am++) 
 				{
@@ -165,39 +201,55 @@ int main(int arc, char* argv[])
 							break;
 						}
 					}
-				}*/
-
-				// Cap nhat lai man hinh
-				if (SDL_Flip(g_screen) == -1)
-					return 0;
+				}
 			
 				// Sau khi vien dan di chuyen xong thi se kiem tra su va cham giua nhan vat chinh va doi tuong tro ngai
 				bool is_col = SDLCommonFunc::CheckCollision(human_object.GetRect(), p_threat->GetRect());
-				if(is_col)// neu va cham voi nhau thi tro choi se keu thuc
+				if(is_col1 || is_col)// neu va cham voi nhau thi tro choi se keu thuc
 				{
 					// Khi va cham thanh cong thi vu no se xay ra
 					for (int exp = 0; exp < 4; exp++)
 					{
-						int x_pos = (human_object.GetRect().x + human_object.GetRect().w*0.3)-EXP_WIDTH*0.3; //vi tri cua pos se = vi tri ngay mep cua nv + 1/2 chieu chieu rong cua nv - 1/2 chieu rong cua vu no ==> Vi tri se nam o ngay tam 
+						int x_pos = (human_object.GetRect().x + human_object.GetRect().w*0.2)-EXP_WIDTH*0.2; //vi tri cua pos se = vi tri ngay mep cua nv + 1/2 chieu chieu rong cua nv - 1/2 chieu rong cua vu no ==> Vi tri se nam o ngay tam 
 						int y_pos = (human_object.GetRect().y + human_object.GetRect().h*0.3) - EXP_HEIGHT*0.3; //vi tri cua pos se = vi tri ngay mep cua nv + 1/2 chieu cao cua nv - 1/2 chieu cao cua vu no ==> Vi tri se nam o ngay tam 
 						
 						exp_main.set_frame(exp); // set frame cho explosion
 						exp_main.SetRect(x_pos, y_pos);// set vi tri cho explosion
 						exp_main.ShowExp(g_screen);
 						/*SDL_Delay(100);*/
+
+						// Cap nhat lai man hinh
+						if (SDL_Flip(g_screen) == -1)
+							return 0;
 					}
 
-					// Cap nhat lai man hinh
-					if (SDL_Flip(g_screen) == -1)
-						return 0;
-
-					if (MessageBox(NULL, L"Thua rồi bạn ơi!!!", L"Tin Buồn", MB_OK) == IDOK) //Hien thi thong bao ban da thua va khi click vao thi ctrinh se ket thuc
+					die_number++;// khi chet lan thu 1 thi ctrinh van chay
+					if (die_number <= 2) 
 					{
-						delete[] p_threats; // doi tuong can tro di
-						SDLCommonFunc::CleanUp();
-						SDL_Quit();
-						return 1;
-					} 
+						SDL_Delay(700); // do tre sau sau khi hoi sinh
+						human_object.SetRect(POS_X_START_MAIN_OBJ, POS_Y_START_MAIN_OBJ); //set lai vi tri ban dau
+						player_power.Decrease(); // giam mang di
+						player_power.Render(g_screen); // show anh len
+
+													   // Cap nhat lai man hinh
+						if (SDL_Flip(g_screen) == -1) 
+						{
+							delete[] p_threats;
+							SDLCommonFunc::CleanUp();
+							SDL_Quit();
+							return 0;
+						}	
+					}
+					else
+					{
+						if (MessageBox(NULL, L"Thua rồi bạn ơi!!!", L"Tin Buồn", MB_OK) == IDOK) //Hien thi thong bao ban da thua va khi click vao thi ctrinh se ket thuc
+						{
+							delete[] p_threats; // xoa doi tuong can tro di
+							SDLCommonFunc::CleanUp();
+							SDL_Quit();
+							return 1;
+						}
+					}
 				}
 
 				// Sau khi vien dan di chuyen xong thi se kiem tra su va cham giua dan ban cua nhan vat chinh va doi tuong tro ngai
@@ -210,6 +262,24 @@ int main(int arc, char* argv[])
 						bool ret_col = SDLCommonFunc::CheckCollision(p_amo->GetRect(), p_threat->GetRect());// khai bao ham ktra neu dan ban trung doi tuong tro ngai thi se bien mat
 						if(ret_col) // ktra khi ma dan ban trung vao doi tuong can tro thi
 						{	
+
+							point_value++; // la moi khi ban se tu cong len 1 diem
+							for (int exp = 0; exp < 4; exp++)
+							{
+								// Xu ly vu no cua doi tuong tro ngai
+								int x_pos = (p_threat->GetRect().x + p_threat->GetRect().w*0.5) - EXP_WIDTH*0.5; //vi tri cua pos se = vi tri ngay mep cua nv + 1/2 chieu chieu rong cua nv - 1/2 chieu rong cua vu no ==> Vi tri se nam o ngay tam 
+								int y_pos = (p_threat->GetRect().y + p_threat->GetRect().h*0.5) - EXP_HEIGHT*0.5; //vi tri cua pos se = vi tri ngay mep cua nv + 1/2 chieu cao cua nv - 1/2 chieu cao cua vu no ==> Vi tri se nam o ngay tam 
+
+								exp_main.set_frame(exp); // set frame cho explosion
+								exp_main.SetRect(x_pos, y_pos);// set vi tri cho explosion
+								exp_main.ShowExp(g_screen);
+								/*SDL_Delay(100);*/
+
+								//Cap nhat lai man hinh
+								if (SDL_Flip(g_screen) == -1)
+									return 0;
+
+							}	
 							p_threat->Reset(SCREEN_WIDTH + tt * 400); // doi tuong se duoc reset lai vi tri ban dau
 							human_object.RemoveAmo(im); // khi nv chinh ban trung dt can tro thi vien dan se bien mat
 						}
@@ -217,6 +287,18 @@ int main(int arc, char* argv[])
 				}
 			}
 		}
+
+		//Show point_value len man hinh window
+		std::string val_str_point = std::to_string(point_value); // chuyen doi tu so sang dang chuoi
+		std::string strPoint("Point: "); // Dat ten cho point
+		strPoint += val_str_point; // Dc gia tri cua so diem VD: 1...2...3...4...5
+
+		point.SetText(strPoint); // dua noi dung hien thi text vao
+		point.CreateGameText(g_font_text, g_screen);
+
+
+
+
 		// Cap nhat lai man hinh
 		if (SDL_Flip(g_screen) == -1) 
 			return 0;

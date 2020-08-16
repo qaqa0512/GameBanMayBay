@@ -11,13 +11,22 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #undef main
-//Khai bao cac thong so co dinh
+//Khai bao cac thong so cua screan
 const int WIDTH_BG = 4800;
 const int HEIGHT_BG = 600;
 const int SCREEN_WIDTH = 1200;
 const int SCREEN_HEIGHT = 600;
 const int SCREEN_BPP = 32;
+
+
+//Khai bao cac thong so cua main
+const int POS_X_START_MAIN_OBJ = 100; // vi tri ban dau
+const int POS_Y_START_MAIN_OBJ = 100; // vi tri ban dau
+
+//Khai bao cac thong so cua threats
 const int NUM_THREAT = 3; // khoi tao so luong cua doi tuong can tro
+
+
 
 
 // Khai bao cac bien global quan ly man hinh
