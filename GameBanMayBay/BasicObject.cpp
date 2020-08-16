@@ -23,6 +23,6 @@ bool BaseObject::LoadImg(const char* file_name) {
 }
 void BaseObject::Show(SDL_Surface* des) { //Hien thi cac thanh phan can thiet
 	if (p_object_ != NULL) {
-		SDLCommonFunc::ApplySurface(p_object_, des, rect_.x, rect_.y);
+		rect_ = SDLCommonFunc::ApplySurface(p_object_, des, rect_.x, rect_.y);// lay duoc chieu rong, cao chinh xac
 	}
 }

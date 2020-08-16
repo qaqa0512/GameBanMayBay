@@ -13,7 +13,7 @@
 
 // Khai bao Font 
 TTF_Font* g_font_text = NULL;
-
+TTF_Font* g_font_menu = NULL;
 
 //Ham Init khoi tao cac thuoc tinh ban dau
 bool Init()
@@ -37,7 +37,8 @@ bool Init()
 
 	// load file font chu len
 	g_font_text = TTF_OpenFont("UVNBanhMi.ttf", 30); // 20 la font_size
-	if (g_font_text == NULL) 
+	g_font_menu = TTF_OpenFont("UVNBanhMi.ttf", 50);
+	if (g_font_text == NULL || g_font_menu == NULL) 
 	{
 		return false;
 	}
@@ -126,6 +127,11 @@ int main(int arc, char* argv[])
 	unsigned int die_number = 0; // khai bao bien so lan chet
 	unsigned int point_value = 0; // khai bao bien cho gia tri diem
 
+	int ret_menu = SDLCommonFunc::ShowMenu(g_screen, g_font_text); // hien thi chu len man hinh 
+	if (ret_menu == 1) 
+	{
+		is_quit = true;
+	}
 	// vong lap up lien tuc man hinh
 	while (!is_quit)
 	{

@@ -67,7 +67,7 @@ void MainObject::HandleInputAction(SDL_Event events) {
 			p_amo->set_type(AmoObject::SAPHERE);
 		}
 		// cap nhat vi tri cho doi tuong
-		p_amo->SetRect(this->rect_.x + this->rect_.w - 10, this->rect_.y + this->rect_.h * 1.0);// thiet lap toa do cho dan
+		p_amo->SetRect(this->rect_.x + this->rect_.w - 8, this->rect_.y + this->rect_.h * 0.3);// thiet lap toa do cho dan
 		p_amo->set_is_move(true);
 		p_amo->set_x_val(20);
 		p_amo_list_.push_back(p_amo);

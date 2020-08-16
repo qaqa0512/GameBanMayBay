@@ -10,6 +10,10 @@
 #include <string>
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
+
+
+
 #undef main
 //Khai bao cac thong so cua screan
 const int WIDTH_BG = 4800;
@@ -32,22 +36,19 @@ const int NUM_THREAT = 3; // khoi tao so luong cua doi tuong can tro
 // Khai bao cac bien global quan ly man hinh
 static SDL_Surface* g_screen = NULL;
 static SDL_Surface* g_bkground = NULL;
+static SDL_Surface* g_img_menu = NULL;
 static SDL_Event g_even; //quản lý việc bấm sự kiện
 
 namespace SDLCommonFunc // dat ten de tranh bi trung ten voi thu vien
 {
 	SDL_Surface* LoadImage(std::string file_path);
-	void ApplySurface(SDL_Surface* src, SDL_Surface* des, int x, int y);// co chuc nang load 1 surface nguon va dich
+	SDL_Rect ApplySurface(SDL_Surface* src, SDL_Surface* des, int x, int y);// co chuc nang load 1 surface nguon va dich
 	void ApplySurfaceClip(SDL_Surface* src, SDL_Surface* des, SDL_Rect* clip, int x, int y); 
 	void CleanUp();
 	bool CheckCollision(const SDL_Rect& object_1,const SDL_Rect& object_2); //khai bao ham Xu Ly Va Cham
+	int ShowMenu(SDL_Surface* des, TTF_Font* font); // Khoi tao cho menu
+	bool CheckFocusRect(const int& x, const int& y, const SDL_Rect& rect);// ktra toa do cua mot diem voi rect da cho truoc
 }
-
-
-
-
-
-
 
 #endif // !COM_FUNCTION_H_
 
