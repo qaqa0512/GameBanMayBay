@@ -24,6 +24,11 @@ void Font_Text::SetColor(const int& type)
 		SDL_Color color = { 255,255,255 }; // mau trang
 		text_color_ = color;
 	}
+	else if (type == REDPINK_TEXT)
+	{
+		SDL_Color color = { 255,0,121 }; // mau trang
+		text_color_ = color;
+	}
 	else
 	{
 		SDL_Color color = { 255,128,0 }; // mau cam

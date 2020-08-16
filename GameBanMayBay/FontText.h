@@ -16,7 +16,8 @@ public:
 	{
 		RED_TEXT = 0,
 		WHITE_TEXT = 1,
-		ORANGE_TEXT = 2
+		ORANGE_TEXT = 2,
+		REDPINK_TEXT = 3
 	};
 
 	Font_Text();

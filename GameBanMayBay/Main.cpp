@@ -68,6 +68,10 @@ int main(int arc, char* argv[])
 	PlayerPower player_power;
 	player_power.Init();
 
+	//Khoi tao hien thi thoi gian
+	Font_Text time_game; // khai bao bien hien thi thoi gian
+	time_game.SetColor(Font_Text::REDPINK_TEXT); // set mau do hong cho text
+
 	// Khoi tao diem
 	Font_Text point; // khai bao bien point
 	point.SetColor(Font_Text::ORANGE_TEXT); // set cho diem la mau cam
@@ -222,9 +226,9 @@ int main(int arc, char* argv[])
 						if (SDL_Flip(g_screen) == -1)
 							return 0;
 					}
-
+					 
 					die_number++;// khi chet lan thu 1 thi ctrinh van chay
-					if (die_number <= 2) 
+					if (die_number <= 4) 
 					{
 						SDL_Delay(700); // do tre sau sau khi hoi sinh
 						human_object.SetRect(POS_X_START_MAIN_OBJ, POS_Y_START_MAIN_OBJ); //set lai vi tri ban dau
@@ -287,6 +291,16 @@ int main(int arc, char* argv[])
 				}
 			}
 		}
+
+		// Hien thi thoi gian len man hinh window
+		std::string str_time = "Time: "; // tao ra 1 chuoi thoi gian
+		UINT32 time_val = SDL_GetTicks()/1000; //Ham nay se lay duoc thoi diem hien tai lai bao nhieu giay 
+		std::string str_val = std::to_string(time_val); // doi gia tri tam sang string
+		str_time += str_val; // se co dc thoi gian de hien thi
+
+		time_game.SetText(str_time);// noi dung text
+		time_game.SetRect(SCREEN_WIDTH -200,10);// Vi tri hien thi cua thoi gian
+		time_game.CreateGameText(g_font_text, g_screen);
 
 		//Show point_value len man hinh window
 		std::string val_str_point = std::to_string(point_value); // chuyen doi tu so sang dang chuoi

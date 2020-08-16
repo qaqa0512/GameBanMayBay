@@ -30,7 +30,7 @@ void PlayerPower::Render(SDL_Surface* des)
 void PlayerPower::Init()
 {
 	LoadImg("change.png"); // khi load anh len thi lap tuc se dc ton tai trong baseobject
-	number_ = 3; // o day se gan co dinh 3 mang
+	number_ = 5; // o day se gan co dinh 5 mang
 	if (pos_list_.size() > 0) // phai dam bao pos_list nay luc nao cung phai = 0
 	{
 		pos_list_.clear(); // xoa di nhung pos_list con ton tai truoc do
@@ -39,6 +39,8 @@ void PlayerPower::Init()
 	AddPos(20);
 	AddPos(60);
 	AddPos(100);
+	AddPos(140);
+	AddPos(180);
 }
 
 // Ham giam mang
